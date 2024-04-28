@@ -30,6 +30,7 @@ public class AdminController {
     public String admin(Model model, Principal principal) {
         model.addAttribute( "users", userService.list());
         model.addAttribute("user", userService.getUserByPrincipal(principal));
+        model.addAttribute("userByPrincipal", userService.getUserByPrincipal(principal));
         return "admin";
     }
 
@@ -48,13 +49,19 @@ public class AdminController {
     @GetMapping("/admin/user/edit/{user}")
     public String userEdit(@PathVariable("user") User user, Model model, Principal principal) {
         model.addAttribute("user", user);
-        model.addAttribute("user", userService.getUserByPrincipal(principal));
         model.addAttribute("roles", Role.values());
         return "user-edit";
     }
 
     @PostMapping("/admin/user/edit")
     public String userEdit(@RequestParam("userId") User user, @RequestParam Map<String, String> form) {
+
+        System.out.println(user.isAdmin() + user.getEmail());
+        for (Map.Entry<String, String> entry : form.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            System.out.println(key + ": " + value);
+        }
         userService.changeUserRoles(user, form);
         return "redirect:/admin";
     }

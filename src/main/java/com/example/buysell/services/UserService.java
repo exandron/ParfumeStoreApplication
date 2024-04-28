@@ -53,8 +53,9 @@ public class UserService {
 
     public void deleteUser(Long id) {
         User user = userRepository.findById(id).orElse(null);
+        System.out.println(user.getId()+ user.getEmail());
         if (user != null) {
-            log.info("Ban user with id = {}; email: {}", user.getId(), user.getEmail());
+            log.info("Delete user with id = {}; email: {}", user.getId(), user.getEmail());
             userRepository.delete(user);
         }
     }
@@ -63,10 +64,17 @@ public class UserService {
         Set<String> roles = Arrays.stream(Role.values())
                 .map(Role::name)
                 .collect(Collectors.toSet());
+
         user.getRoles().clear();
-        for (String key : form.keySet()) {
-            if (roles.contains(key)) {
-                user.getRoles().add(Role.valueOf(key));
+
+        for (Map.Entry<String, String> entry : form.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            if (key.equals("selectedRole") && value.equals("ROLE_USER")) {
+                user.getRoles().add(Role.ROLE_USER);
+            } else if (key.equals("selectedRole") && value.equals("ROLE_ADMIN")) {
+                user.getRoles().add(Role.ROLE_ADMIN);
             }
         }
         userRepository.save(user);

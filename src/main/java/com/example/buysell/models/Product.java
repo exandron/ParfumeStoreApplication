@@ -24,8 +24,13 @@ public class Product {
     private String title;
 
     @Column(columnDefinition = "TEXT")
+    @JsonIgnore
     private String description;
+
+    @JsonIgnore
     private Double price;
+
+    @JsonIgnore
     private String gender;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
@@ -35,9 +40,13 @@ public class Product {
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn
+    @JsonIgnore
     private User user;
+
+    @JsonIgnore
     private Long previewImageId;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
     private List<CartProduct> cartProducts = new ArrayList<>();
 

@@ -40,6 +40,9 @@ public class User implements UserDetails {
     @JsonIgnore
     private String password;
 
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    private Cart cart;
+
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"))
@@ -51,10 +54,6 @@ public class User implements UserDetails {
             mappedBy = "user")
     @JsonIgnore
     private List<Product> products = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "user")
-    private Cart cart;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

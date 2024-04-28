@@ -18,22 +18,30 @@
                 <th style="vertical-align: middle; text-align: center;">${user.phoneNumber}</th>
                 <th style="vertical-align: middle; text-align: center;"><#if user.active>true<#else>false</#if></th>
                 <th style="vertical-align: middle; text-align: center;"><#list user.roles as role>${role}</#list></th>
-                <th style="vertical-align: middle; text-align: center;">
-                    <form action="/admin/user/ban/${user.id}" method="post">
-                        <input type="hidden" name="_csrf" value="${_csrf.token}">
-                        <input type="submit" class="btn btn-outline-dark rounded-0" value="Бан">
-                    </form>
-                </th>
-                <th style="vertical-align: middle; text-align: center;"><a href="/admin/user/edit/${user.id}">Редактировние</a></th>
-                <th style="vertical-align: middle; text-align: center;"><a href="/user/${user.id}">Подробная информация</a></th>
-                <th style="vertical-align: middle; text-align: center;">
-                    <form action="/admin/user/delete/${user.id}" method="post" class="d-inline">
-                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                        <button type="submit" class="btn btn-outline-dark rounded-0">
-                            Удалить
-                        </button>
-                    </form>
-                </th>
+
+                <#if user.id == userByPrincipal.id>
+                    <th style="vertical-align: middle; text-align: center;"></th>
+                    <th style="vertical-align: middle; text-align: center;"></th>
+                    <th style="vertical-align: middle; text-align: center;"></th>
+                    <th style="vertical-align: middle; text-align: center;"></th>
+                <#else>
+                    <th style="vertical-align: middle; text-align: center;">
+                        <form action="/admin/user/ban/${user.id}" method="post">
+                            <input type="hidden" name="_csrf" value="${_csrf.token}">
+                            <input type="submit" class="btn btn-outline-dark rounded-0" value="Бан">
+                        </form>
+                    </th>
+                    <th style="vertical-align: middle; text-align: center;"><a href="/admin/user/edit/${user.id}">Редактирование</a></th>
+                    <th style="vertical-align: middle; text-align: center;"><a href="/user/${user.id}">Подробная информация</a></th>
+                    <th style="vertical-align: middle; text-align: center;">
+                        <form action="/admin/user/delete/${user.id}" method="post" class="d-inline">
+                            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                            <button type="submit" class="btn btn-outline-dark rounded-0">
+                                Удалить
+                            </button>
+                        </form>
+                    </th>
+                </#if>
             </tr>
         <#else>
             <h3>Пользователей нет</h3>

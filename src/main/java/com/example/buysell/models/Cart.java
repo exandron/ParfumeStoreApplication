@@ -23,7 +23,7 @@ public class Cart {
     @JsonIgnore
     private List<CartProduct> cartProducts = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     @MapsId
     @JsonIgnore

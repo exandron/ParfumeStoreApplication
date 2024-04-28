@@ -44,7 +44,11 @@ public class CartController {
         User user = userService.getUserByPrincipal(principal);
 
         // Получение корзины пользователя
-        Cart cart = user.getCart();
+        Cart cart = cartService.getCartByUser(user);
+
+        if (cart == null) {
+            cartService.initCart(user);
+        }
 
         double totalPrice = cartService.calculateTotalPrice(cart);
 

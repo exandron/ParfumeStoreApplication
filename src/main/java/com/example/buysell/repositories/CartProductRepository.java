@@ -9,5 +9,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface CartProductRepository extends JpaRepository<CartProduct, Long> {
     CartProduct findCartProductByProductAndCart(Product product, Cart cart);
+    CartProduct findCartProductByCart(Cart cart);
 }
 

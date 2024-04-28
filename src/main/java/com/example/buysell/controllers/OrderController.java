@@ -36,7 +36,7 @@ public class OrderController {
         User user = userService.getUserByPrincipal(principal);
 
         // Получение корзины пользователя
-        Cart cart = user.getCart();
+        Cart cart = cartService.getCartByUser(user);
 
         double totalPrice = cartService.calculateTotalPrice(cart);
         // Получение списка CartProduct в корзине
@@ -147,5 +147,28 @@ public class OrderController {
             e.printStackTrace();
         }
         return "redirect:/order/my-orders";
+    }
+
+    @GetMapping("/order/productsStatistics")
+    public String productStatistics(Principal principal, Model model) {
+        User user = productService.getUserByPrincipal(principal);
+
+        model.addAttribute("user", productService.getUserByPrincipal(principal));
+        model.addAttribute("products", productService.listAllProducts());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        String productsJson;
+        try {
+            productsJson = objectMapper.writeValueAsString(productService.listAllProducts());
+        } catch (JsonProcessingException e) {
+            // Обработка ошибки преобразования в JSON, если необходимо
+            e.printStackTrace();
+            productsJson = "[]"; // Назначьте значение по умолчанию в случае ошибки
+        }
+        model.addAttribute("productsJson", productsJson);
+        System.out.println(productsJson);
+
+        return "products-statistics";
     }
 }

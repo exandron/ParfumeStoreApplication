@@ -49,6 +49,23 @@ public class CartService {
         cartRepository.save(cart);
     }
 
+    public void initCart(User user) {
+        Cart cart = getCartByUser(user);
+
+        if (cart == null) {
+            cart = new Cart();
+            cart.setUser(user);
+        }
+
+        CartProduct cartProduct = cartProductRepository.findCartProductByCart(cart);
+        if (cart == null) {
+            cartProduct = new CartProduct();
+            cartProduct.setCart(cart);
+        }
+        cartProductRepository.save(cartProduct); // Сохранение сущности CartProduct
+        cartRepository.save(cart);
+    }
+
     public Cart getCartByUser(User user) {
         return cartRepository.findByUser(user);
     }
@@ -56,7 +73,7 @@ public class CartService {
 
     public void deleteProduct(User user, Long id) {
         // Получение корзины пользователя
-        Cart cart = user.getCart();
+        Cart cart = getCartByUser(user);
 
         // Поиск CartProduct в корзине по ID товара
         CartProduct cartProduct = cart.getCartProducts().stream()

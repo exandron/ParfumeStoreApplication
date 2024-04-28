@@ -36,7 +36,11 @@
                             </a>
                             <a class="btn btn-dark mb-3" style="text-align: center; width: 100%"
                                href="/admin/statistics">
-                                Статистика по пользователям
+                                Диаграмма пользователей
+                            </a>
+                            <a class="btn btn-dark mb-3" style="text-align: center; width: 100%"
+                               href="/order/productsStatistics">
+                                Статистика по товарам
                             </a>
                         </#if>
                         <form action="/cart" method="get">

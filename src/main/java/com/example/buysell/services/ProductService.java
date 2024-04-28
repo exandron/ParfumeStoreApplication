@@ -35,6 +35,10 @@ public class ProductService {
         }
     }
 
+    public List<Product> listAllProducts() {
+            return productRepository.findAll();
+    }
+
     public void saveProduct(Principal principal, Product product, MultipartFile file1, MultipartFile file2, MultipartFile file3) throws IOException {
         product.setUser(getUserByPrincipal(principal));
         Image image1;
